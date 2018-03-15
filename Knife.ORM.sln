@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityMaker", "Src\EntityMaker\EntityMaker.csproj", "{F517AC4D-CE5B-4A89-A3D0-2839CCB821DC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{443B2E55-8604-4F9A-86BF-D6EFAD07835E} = {443B2E55-8604-4F9A-86BF-D6EFAD07835E}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Knife.ORM", "Src\Knife.ORM\Knife.ORM.csproj", "{443B2E55-8604-4F9A-86BF-D6EFAD07835E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWPF", "Src\SampleWPF\SampleWPF.csproj", "{30627BD2-4C50-4036-83CC-030FC5EB504D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{443B2E55-8604-4F9A-86BF-D6EFAD07835E} = {443B2E55-8604-4F9A-86BF-D6EFAD07835E}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F517AC4D-CE5B-4A89-A3D0-2839CCB821DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F517AC4D-CE5B-4A89-A3D0-2839CCB821DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F517AC4D-CE5B-4A89-A3D0-2839CCB821DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F517AC4D-CE5B-4A89-A3D0-2839CCB821DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{443B2E55-8604-4F9A-86BF-D6EFAD07835E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{443B2E55-8604-4F9A-86BF-D6EFAD07835E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{443B2E55-8604-4F9A-86BF-D6EFAD07835E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{443B2E55-8604-4F9A-86BF-D6EFAD07835E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30627BD2-4C50-4036-83CC-030FC5EB504D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30627BD2-4C50-4036-83CC-030FC5EB504D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30627BD2-4C50-4036-83CC-030FC5EB504D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30627BD2-4C50-4036-83CC-030FC5EB504D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
