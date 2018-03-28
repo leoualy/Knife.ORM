@@ -82,5 +82,15 @@ namespace EntityMaker
             }
         }
 
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = sender as ComboBox;
+            if (this.mViewModel == null)
+            {
+                return;
+            }
+            this.mViewModel.DBType = cb.SelectedIndex;
+        }
+
     }
 }

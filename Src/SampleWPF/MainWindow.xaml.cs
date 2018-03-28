@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Knife.ORM;
+using Knife.ORM.KMeta;
 
 namespace SampleWPF
 {
@@ -24,26 +25,32 @@ namespace SampleWPF
         public MainWindow()
         {
             InitializeComponent();
-            KnifeConfig.SQLServerConnectionString = "Data Source =localhost;Initial Catalog = DTStation;Integrated Security = SSPI";
+            //KnifeConfig.SQLServerConnectionString = "Data Source =localhost;Initial Catalog = DTStation;Integrated Security = SSPI";
+            //KnifeConfig.SQLServerConnectionString = "server =localhost;database = master;uid=sa;pwd=000000";
+            KnifeConfig.MySqlConnectionString = "server=localhost;database=information_schema;uid=root;pwd=root";
             q = new KQueryMSSQL();
         }
         Query q;
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //Context sqlserver = new SqlServerContext();
+           
+            //WaitingRoom wr = new WaitingRoom() { Name = "query8" };
+           
+            //KQueryMSSQL q1 = new KQueryMSSQL();
+            //List<WaitingRoom> wrs = new List<WaitingRoom>();
+            //wrs.Add(wr);
+            //wrs.Add(wr);
+            //q1.Insert<WaitingRoom>(wrs);
 
-            WaitingRoom wr = new WaitingRoom() { Name = "query8" };
-            //int c = sqlserver.ModifyByConditionColumns<WaitingRoom>(wr, new WaitingRoom() { ID = 9 });
-            //int c1 = sqlserver.Insert<WaitingRoom>(wr);
-            //List<WaitingRoom> list = sqlserver.GetModel<WaitingRoom>(wr);
-            KQueryMSSQL q1 = new KQueryMSSQL();
+
+            // KQueryMySql mySql = new KQueryMySql();
+
+            //mySql.Insert<user>(new List<user>() { new user() { Name = "zz" } });
+            // List<user> us = mySql.Less("ID", 2).Select<user>();
+            IDatabase mysql = new SQLServerMeta();
+            mysql.Connect("localhost", "sa", "000000");
+            MessageBox.Show(mysql.GetTable("DBTrain","Led").Name);
             
-            // int i = q1.Greater("ID", 9).Less("ID", 12).Columns("ID","Name").Select<WaitingRoom>().Count;
-            List<WaitingRoom> wrs = new List<WaitingRoom>();
-            wrs.Add(wr);
-            wrs.Add(wr);
-            q1.Insert<WaitingRoom>(wrs);
-            //MessageBox.Show(i.ToString());
         }
     }
 }

@@ -45,38 +45,45 @@ using System.Threading.Tasks;";
         /// <param name="contentsByLine">按行分隔的类内容</param>
         internal static void CreateClassFile(string nameSpace,string className,string file,List<string> contentsByLine)
         {
+            // 创建类文件,如果存在则删除
             if (File.Exists(file))
             {
                 File.Delete(file);
             }
 
-            using(FileStream fs =new FileStream(file,FileMode.CreateNew,FileAccess.Write))
+            try
             {
-                gSWriter = new StreamWriter(fs);
-                // 写入using
-                gSWriter.Write(UsingString);
-                gSWriter.Write("\r\n\r\n");
-                // 写入namespace
-                gSWriter.Write(CreateNamespace(nameSpace));
-                
-                // namespace 的开始
-                gSWriter.Write("\r\n{");
-                // 写入class定义
-                gSWriter.Write("\r\n    " + CreateClass(className));
-                // class 的开始
-                gSWriter.Write("\r\n    {\r\n");
-                foreach (string val in contentsByLine)
+                using (FileStream fs = new FileStream(file, FileMode.CreateNew, FileAccess.Write))
                 {
-                    gSWriter.Write(val);
+                    gSWriter = new StreamWriter(fs);
+                    // 写入using
+                    gSWriter.Write(UsingString);
+                    gSWriter.Write("\r\n\r\n");
+                    // 写入namespace
+                    gSWriter.Write(CreateNamespace(nameSpace));
+
+                    // namespace 的开始
+                    gSWriter.Write("\r\n{");
+                    // 写入class定义
+                    gSWriter.Write("\r\n    " + CreateClass(className));
+                    // class 的开始
+                    gSWriter.Write("\r\n    {\r\n");
+                    foreach (string val in contentsByLine)
+                    {
+                        gSWriter.Write(val);
+                    }
+
+                    gSWriter.Write("    }");
+                    // class的结束
+                    gSWriter.Write("\r\n}");
+                    // namespace 的结束
+                    gSWriter.Close();
                 }
-                
-                gSWriter.Write("    }");
-                // class的结束
-                gSWriter.Write("\r\n}");
-                // namespace 的结束
-                gSWriter.Close();
             }
-            
+            catch (Exception e)
+            {
+                throw new Exception("创建类文件时出错,异常消息:" + e.Message);
+            }
         }
 
         /// <summary>

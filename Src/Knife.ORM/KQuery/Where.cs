@@ -19,7 +19,6 @@ namespace Knife.ORM
         public Where(KSql.Sql sql)
             : base(sql) { }
 
-
         public virtual Where Columns(params string[] keys)
         {
             if (keys == null)

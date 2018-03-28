@@ -59,6 +59,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="typeComboxStyle" TargetType="ComboBox">
+            <Setter Property="Width" Value="196"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -211,15 +214,21 @@
             </StackPanel>
         </Grid>
         <!--内容主界面-->
-
         <!--登陆界面-->
-        <Grid Grid.Row="0" Grid.RowSpan="2" Name="gridLogin" Visibility="Collapsed">
+        <Grid Grid.Row="0" Grid.RowSpan="2" Name="gridLogin" Visibility="Visible">
             <Grid.Background>
                 <SolidColorBrush Color="Black" Opacity="0.2"></SolidColorBrush>
             </Grid.Background>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="280" Height="320" Background="White">
+                
                 <TextBlock HorizontalAlignment="Center" Margin="0,32,0,0">连接到服务器</TextBlock>
-                <TextBox local:ControlAttachManager.Watermark="主机名/IP地址"  Text="{Binding HostName}" Margin="0,32,0,0"  Style="{StaticResource watermarkTextBoxStyle}"/>
+                <ComboBox SelectedIndex="{Binding DBType}" Style="{StaticResource typeComboxStyle}" Margin="0,32,0,0"
+                          SelectionChanged="ComboBox_SelectionChanged"
+                          >
+                    <ComboBoxItem>SqlServer</ComboBoxItem>
+                    <ComboBoxItem>MySql</ComboBoxItem>
+                </ComboBox>
+                <TextBox local:ControlAttachManager.Watermark="主机名/IP地址"  Text="{Binding HostName}" Margin="0,16,0,0"  Style="{StaticResource watermarkTextBoxStyle}"/>
                 <TextBox local:ControlAttachManager.Watermark="用户名" Text="{Binding UserName}" Margin="0,8"  Style="{StaticResource watermarkTextBoxStyle}"/>
                 <TextBox local:ControlAttachManager.Watermark="密码" Text="{Binding Password}"  Style="{StaticResource watermarkTextBoxStyle}"/>
                 <Button Width="196" Margin="0,20" Click="Login_Click">

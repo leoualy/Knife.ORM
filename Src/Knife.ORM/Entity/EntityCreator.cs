@@ -64,7 +64,7 @@ namespace Knife.ORM.Entity
         /// <returns></returns>
         internal static List<string> GetTableNames()
         {
-            DataTable dt = (new SqlServerDriver()).GetDataTable("select Name from SysObjects where XType='U' ");
+            DataTable dt = (new SqlServerDriver()).ExecDQLForDataTable("select Name from SysObjects where XType='U' ");
             if (dt == null || dt.Rows.Count < 0)
             {
                 return null;
@@ -83,7 +83,7 @@ namespace Knife.ORM.Entity
 @"select syscolumns.name as name,systypes.name as dataType 
 from syscolumns,systypes 
 where syscolumns.id=OBJECT_ID('{0}') and syscolumns.xusertype=systypes.xusertype", tableName);
-            DataTable dt = (new SqlServerDriver()).GetDataTable(sql);
+            DataTable dt = (new SqlServerDriver()).ExecDQLForDataTable(sql);
             Table t = new Table();
             t.Name = tableName;
             t.Fields = new List<Field>();

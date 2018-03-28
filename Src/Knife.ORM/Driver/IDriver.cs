@@ -17,10 +17,33 @@ namespace Knife.ORM
     public interface IDriver
     {
         void TestConnection();
-        DataTable GetDataTable(string sql, List<IDataParameter> sqlparms = null);
-        int ExecNoQuery(string sql, List<IDataParameter> sqlparms = null);
-        object ExecQuery(string sql, List<IDataParameter> sqlparms = null);
-        // 2018-03-12添加的新接口函数，用于创建通用参数
+        /// <summary>
+        /// 处理查询语句获取DataTable对象
+        /// </summary>
+        /// <param name="sql">select 语句</param>
+        /// <param name="sqlparms">参数</param>
+        /// <returns>DataTable 对象</returns>
+        DataTable ExecDQLForDataTable(string sql, List<IDataParameter> sqlparms = null);
+        /// <summary>
+        /// 处理数据控制语言
+        /// </summary>
+        /// <param name="sql">update,insert,delete 语句</param>
+        /// <param name="sqlparms">参数列表</param>
+        /// <returns>影响的列数</returns>
+        int ExecDML(string sql, List<IDataParameter> sqlparms = null);
+        /// <summary>
+        /// 处理数据查询语言
+        /// </summary>
+        /// <param name="sql">select 语句</param>
+        /// <param name="sqlparms">参数列表</param>
+        /// <returns>查询的结果</returns>
+        object ExecDQL(string sql, List<IDataParameter> sqlparms = null);
+        /// <summary>
+        /// 创建参数对象
+        /// </summary>
+        /// <param name="name">参数名</param>
+        /// <param name="val">参数值</param>
+        /// <returns></returns>
         IDataParameter CreateDataParameter(string name, object val);
     }
 }

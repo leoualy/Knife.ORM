@@ -24,6 +24,7 @@ namespace Knife.ORM
     }
     internal class Reflector
     {
+
         internal static TModel Row2Model<TModel>(DataRow dr)
         {
             Type t = typeof(TModel);

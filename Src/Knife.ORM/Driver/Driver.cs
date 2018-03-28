@@ -32,53 +32,7 @@ namespace Knife.ORM
             OpenConn();
         }
 
-        /// <summary>
-        /// 打开一个数据库连接
-        /// </summary>
-        /// <returns></returns>
-        IDbConnection OpenConn()
-        {
-            IDbConnection conn = mProviderFactory.CreateConnection();
-            conn.ConnectionString = this.mConnectionString;
-            
-            try
-            {
-                if (conn.State == ConnectionState.Closed)
-                {
-                    conn.Open();
-                }
-                return conn;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(string.Format("打开数据库连接异常，异常消息：{0}", e.Message));
-            }
-
-        }
-
-        /// <summary>
-        /// 准备SqlCommand对象
-        /// </summary>
-        /// <param name="conn"></param>
-        /// <param name="cmdType"></param>
-        /// <param name="cmdText"></param>
-        /// <returns></returns>
-
-        IDbCommand PrepareCmd(IDbConnection conn, CommandType cmdType, string cmdText)
-        {
-            IDbCommand cmd = mProviderFactory.CreateCommand();
-            cmd.CommandType = cmdType;
-            cmd.CommandText = cmdText;
-            cmd.Connection = conn;
-            return cmd;
-        }
-
-        /// <summary>
-        /// 执行sql 获取DataTable 对象
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <returns></returns>
-        public DataTable GetDataTable(string sql, List<IDataParameter> sqlparms = null)
+        public DataTable ExecDQLForDataTable(string sql, List<IDataParameter> sqlparms = null)
         {
             using (IDbConnection conn = OpenConn())
             {
@@ -102,18 +56,20 @@ namespace Knife.ORM
                 IDbDataAdapter da = mProviderFactory.CreateDataAdapter();
                 da.SelectCommand = cmd;
                 DataSet ds = new DataSet();
-                int count = da.Fill(ds);
+                try
+                {
+                    da.Fill(ds);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("执行Driver中的函数ExceDQLForDataTable时出错,异常信息:" + e.Message);
+                }
+                
                 return ds.Tables[0];
             }
         }
 
-        /// <summary>
-        /// 执行非查询语句
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="sqlparms"></param>
-        /// <returns></returns>
-        public int ExecNoQuery(string sql, List<IDataParameter> sqlparms = null)
+        public int ExecDML(string sql, List<IDataParameter> sqlparms = null)
         {
             using (IDbConnection conn = OpenConn())
             {
@@ -125,18 +81,19 @@ namespace Knife.ORM
                         cmd.Parameters.Add(val);
                     }
                 }
-                return cmd.ExecuteNonQuery();
+                try
+                {
+                    return cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("执行Driver中的函数ExceDML时出错,异常信息:" + e.Message);
+                }
             }
 
         }
 
-        /// <summary>
-        /// 执行查询语句
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="sqlparms"></param>
-        /// <returns></returns>
-        public object ExecQuery(string sql, List<IDataParameter> sqlparms = null)
+        public object ExecDQL(string sql, List<IDataParameter> sqlparms = null)
         {
             using (IDbConnection conn = OpenConn())
             {
@@ -148,8 +105,14 @@ namespace Knife.ORM
                         cmd.Parameters.Add(val);
                     }
                 }
-
-                return cmd.ExecuteScalar();
+                try
+                {
+                    return cmd.ExecuteScalar();
+                }
+                catch(Exception e)
+                {
+                    throw new Exception("执行Driver中的函数ExceDQL时出错,异常信息:" + e.Message);
+                }
             }
 
         }
@@ -163,7 +126,49 @@ namespace Knife.ORM
         }
 
 
+        #region 派生类私有成员
         DbProviderFactory mProviderFactory;
         string mConnectionString;
+        /// <summary>
+        /// 打开一个数据库连接
+        /// </summary>
+        /// <returns></returns>
+        IDbConnection OpenConn()
+        {
+            IDbConnection conn = mProviderFactory.CreateConnection();
+            conn.ConnectionString = this.mConnectionString;
+
+            try
+            {
+                if (conn.State == ConnectionState.Closed)
+                {
+                    conn.Open();
+                }
+                return conn;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("打开数据库连接异常,异常消息：{0}", e.Message));
+            }
+        }
+
+        /// <summary>
+        /// 生成一个命令对象
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <param name="cmdType"></param>
+        /// <param name="cmdText"></param>
+        /// <returns></returns>
+        IDbCommand PrepareCmd(IDbConnection conn, CommandType cmdType, string cmdText)
+        {
+            IDbCommand cmd = mProviderFactory.CreateCommand();
+            cmd.CommandType = cmdType;
+            cmd.CommandText = cmdText;
+            cmd.Connection = conn;
+            return cmd;
+        }
+        #endregion 派生类私有成员
+
+
     }
 }

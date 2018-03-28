@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Knife.ORM;
+using Knife.ORM.KMeta;
 
 
 namespace EntityMaker
@@ -52,9 +53,22 @@ namespace EntityMaker
     {
         public MainViewModel()
         {
-            mHostName = ".";
+            mHostName = "localhost";
             mUserName = "sa";
             mPasswd = "000000";
+            mDBType = 0;
+        }
+
+        #region 绑定的属性
+        private int mDBType;
+        public int DBType
+        {
+            get { return mDBType; }
+            set
+            {
+                mDBType = value;
+                OnPropertyChanged("DBType");
+            }
         }
 
         private string mHostName;
@@ -135,18 +149,32 @@ namespace EntityMaker
                 OnPropertyChanged("Tables");
             }
         }
+        #endregion 绑定的属性
 
+        IDatabase db;
+        string mDbSelected;
         public bool TryLoginServer()
         {
             try
             {
-                DMOHelper.LoginServer(mHostName,mUserName,mPasswd);
+
+                switch (DBType)
+                {
+                    case 0: db = new SQLServerMeta(); break;
+                    case 1: db = new MySqlMeta(); break;
+                    default: break;
+                }
+
+                if (db.Connect(mHostName, mUserName, mPasswd) < 0)
+                {
+                    return false;
+                }
                 if (mDatabases == null)
                 {
                     mDatabases = new List<BindingDatabase>();
                 }
                 mDatabases.Clear();
-                foreach (string name in DMOHelper.GetDatabases())
+                foreach (string name in db.GetDatabases())
                 {
                     mDatabases.Add(new BindingDatabase() { Name = name });
                 }
@@ -161,10 +189,15 @@ namespace EntityMaker
         }
 
         List<string> list;
-        public void SelectDB(object db)
+        public void SelectDB(object dbName)
         {
-            list = GetTables(db.ToString());
+            list = db.GetTablesOfDB(dbName.ToString());
             mTables = new List<BindingTable>();
+            mDbSelected = dbName.ToString();
+            if (list == null)
+            {
+                return;
+            }
             foreach (string val in list)
             {
                 mTables.Add(new BindingTable() { Name = val });
@@ -188,23 +221,11 @@ namespace EntityMaker
             mSelectedTables.Remove(obj.ToString());
         }
 
-        private List<string> GetTables(string dbName)
-        {
-            List<string> list = new List<string>();
-            KnifeConfig.SQLServerConnectionString = string.Format("Data Source ={0};Initial Catalog ={1};User ID={2};Password={3}",
-                this.mHostName, dbName, this.mUserName, this.mPasswd);
-            foreach (var val in (EntityContext.GetTablesOfDatabase()))
-            {
-                list.Add(val);
-            }
-            return list;
-        }
-        
         public void CreateEntities()
         {
             foreach (string val in mSelectedTables)
             {
-                EntityContext.CreateEntity(val, this.Namespace, this.Dir);
+                db.CreateEntity(db.GetTable(this.mDbSelected, val), this.Namespace, this.Dir);
             }
         }
 

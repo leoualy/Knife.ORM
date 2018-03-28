@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Knife.ORM.KQuery
+namespace Knife.ORM
 {
-    public class KQueryMySql:Query
+    public sealed class KQueryMySql:Query
     {
         public KQueryMySql() : base(new KSql.MySQLSql()) { }
     }

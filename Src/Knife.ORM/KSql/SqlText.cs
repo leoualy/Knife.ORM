@@ -36,7 +36,16 @@ namespace Knife.ORM.KSql
             }
             else
             {
-                mSelectText.Append(" * ");
+                List<string> columns = Reflector.GetColumns<TEntity>();
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    mSelectText.Append(" " + columns[i]);
+                    if (i != columns.Count-1)
+                    {
+                        mSelectText.Append(",");
+                    }
+                }
+                mSelectText.Append(" ");
             }
 
 

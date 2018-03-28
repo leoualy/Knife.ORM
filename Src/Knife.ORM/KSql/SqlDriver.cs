@@ -27,7 +27,7 @@ namespace Knife.ORM.KSql
 
         protected List<TEntity> Query<TEntity>(string sql)
         {
-            DataTable dt = mDriver.GetDataTable(sql, pmParams);
+            DataTable dt = mDriver.ExecDQLForDataTable(sql, pmParams);
             if (dt == null || dt.Rows.Count <= 0)
             {
                 return null;
@@ -44,7 +44,7 @@ namespace Knife.ORM.KSql
 
         protected int UnQuery(string sql)
         {
-            return mDriver.ExecNoQuery(sql, pmParams);
+            return mDriver.ExecDML(sql, pmParams);
         }
         internal void AddParams(string name, object val)
         {
@@ -57,7 +57,12 @@ namespace Knife.ORM.KSql
 
         internal void ClearParams()
         {
-            pmParams.Clear();
+            // 2018-03-22 改：防止清空NULL对象
+            if (pmParams != null)
+            {
+                pmParams.Clear();
+            }
+            
         }
     }
 }

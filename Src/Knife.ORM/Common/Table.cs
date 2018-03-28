@@ -15,21 +15,16 @@ using System.Threading.Tasks;
 
 namespace Knife.ORM
 {
-    internal class Field
+    public class Field
     {
-        internal string Name { get; set; }
-        internal string DataType { get; set; }
-        internal object Value { get; set; }
+        public string Name { get; set; }
+        public string DataType { get; set; }
+        public object Value { get; set; }
     }
 
-    internal class Fields : List<Field>
+    public class Table
     {
-
-    }
-
-    internal class Table
-    {
-        internal string Name { get; set; }
-        internal List<Field> Fields { get; set; }
+        public string Name { get; set; }
+        public List<Field> Fields { get; set; }
     }
 }

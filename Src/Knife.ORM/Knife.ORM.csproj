@@ -42,6 +42,10 @@
   <ItemGroup>
     <Compile Include="Common\ClassCreator.cs" />
     <Compile Include="Common\PathUtil.cs" />
+    <Compile Include="KMeta\DatabaseImpl.cs" />
+    <Compile Include="KMeta\IDatabase.cs" />
+    <Compile Include="KMeta\MySqlMeta.cs" />
+    <Compile Include="KMeta\SQLServerMeta.cs" />
     <Compile Include="KnifeConfig.cs" />
     <Compile Include="Driver\ProviderFactorys.cs" />
     <Compile Include="Driver\Driver.cs" />
