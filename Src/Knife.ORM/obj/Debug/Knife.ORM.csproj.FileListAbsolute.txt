@@ -1,6 +1,0 @@
-J:\GitHub\Knife.ORM\Build\Knife.ORM\Dlls\MySql.Data.dll
-J:\GitHub\Knife.ORM\Build\Knife.ORM\Knife.ORM.dll
-J:\GitHub\Knife.ORM\Build\Knife.ORM\Knife.ORM.pdb
-J:\GitHub\Knife.ORM\Src\Knife.ORM\obj\Debug\Knife.ORM.csprojResolveAssemblyReference.cache
-J:\GitHub\Knife.ORM\Src\Knife.ORM\obj\Debug\Knife.ORM.dll
-J:\GitHub\Knife.ORM\Src\Knife.ORM\obj\Debug\Knife.ORM.pdb
