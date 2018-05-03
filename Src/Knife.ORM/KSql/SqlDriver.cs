@@ -62,7 +62,6 @@ namespace Knife.ORM.KSql
             {
                 pmParams.Clear();
             }
-            
         }
     }
 }
